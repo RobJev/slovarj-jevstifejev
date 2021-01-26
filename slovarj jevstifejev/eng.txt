@@ -4,3 +4,6 @@ Cat
 Apple
 Phone
 Headphones
+Oleg
+Tree
+Coffe
