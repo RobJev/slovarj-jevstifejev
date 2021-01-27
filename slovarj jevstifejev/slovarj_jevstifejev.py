@@ -1,3 +1,4 @@
+from random import *
 def read_fail(f): #читает txt файл
     fail=open(f,'r',encoding="utf-8-sig")
     mas=[] 
@@ -5,6 +6,13 @@ def read_fail(f): #читает txt файл
         mas.append(rida.strip())
     fail.close()
     return mas
+
+def list_fail(f,list_):
+    fail=open(f,'w',encoding="utf-8-sig")
+    for n in list_:
+        fail.write(n+"\n")
+    fail.close()
+    return list_
 
 def save_fail(f,text): #сохраняет изменения в txt файле
     fail=open(f,'a',encoding="utf-8-sig")
@@ -23,8 +31,38 @@ def new_words(): #добавление новых слов
         print(eng_list)
         return rus_list,eng_list
 
-def mistake_cor(rus_list,eng_list):
-        pass
+def word_cor(rus_list,eng_list):
+    viga=input("Какое слово хотите исправить?")
+    if viga in rus_list:
+        ind=rus_list.index(viga)
+        print(f"Будет исправлена пара слов {viga} - {eng_list[ind]}")
+        rus_list.pop(ind)
+        eng_list.pop(ind)
+        rus_list=list_fail("rus.txt",rus_list)
+        eng_list=list_fail("eng.txt",eng_list)
+        new_words()
+    elif viga in eng_list:
+        ind=eng_list.index(viga)
+        print(f"Будет исправлена пара слов {viga} - {rus_list[ind]}")
+        rus_list.pop(ind)
+        eng_list.pop(ind)
+        rus_list=list_fail("rus.txt",rus_list)
+        eng_list=list_fail("eng.txt",eng_list)
+        new_words()
+    else:
+        print(f"{viga.ipper()} нет в словаре")
+    rus_list=read_fail("rus.txt")
+    eng_list=read_fail("eng.txt")
+    return rus_list,eng_list
+
+def test(rus_list,eng_list):
+    a=int(input("Сколько слов хотите перевести(от 1 до 10)?"))
+    while type(a)!=int and 1<a<10:
+        try:
+            a=int(input("Сколько слов хотите перевести(от 1 до 10)?"))
+        except:
+            TypeError
+pass    
 
 def tolkimine(rus_list,eng_list): #перевод слов
     slovo=input("Введи слово для перевода:")
@@ -40,9 +78,6 @@ def tolkimine(rus_list,eng_list): #перевод слов
          if v.lower()=="да": new_words()
 rus_list=read_fail("rus.txt")
 eng_list=read_fail("eng.txt")
-print(rus_list)
-print(eng_list)
-
 
 while True:
     ot=input("1-Перевод слов\n2-Добавить слово\n3-Исправить ошибку\n4-Проверка знаний\nВыбери цифру:")
@@ -51,5 +86,7 @@ while True:
     elif ot=="2":
          rus_list,eng_list=new_words()
     elif ot=="3":
-         pass
+        word_cor(rus_list,eng_list)
+    elif ot=="4":
+        test(rus_list,eng_list)
          
